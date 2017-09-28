@@ -16,7 +16,7 @@ In this article, we will introduce how to implement the genetic algorithm on sch
 
 ## Example: 15×15 Job Shop Scheduling Problem ##
 This example is a job shop scheduling problem from E. Taillard (1993).<br/>
-This test is also known as TA01 in the literature, and its optimal makespan is known to be 1,231 (E.D. Taillard, 1994). <br/>
+This test is also known as TA01 in the literature, and its optimal makespan is known to be 1,231 (E.D. Taillard, 1994). <br/><br/>
 There are 15 jobs (J1-J15) and 15 machines (M1-M15).<br/>
 Every job must be processed on each of the 15 machines in a predefined sequence (O1-O15).<br/>
 Our objective is to minimize the completion time of the last job to be processed, known as the makespan. <br/><br/>
