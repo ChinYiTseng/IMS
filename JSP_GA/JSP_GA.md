@@ -15,10 +15,13 @@ After we got the basic concepts of Genetic Algorithm (GA), we might desire to so
 In this article, we will introduce how to implement the genetic algorithm on scheduling problem. We use a job shop problem (JSP) as an example. In job shop problem, multiple jobs are processed on several machines. Each job consists of several operations (tasks) with predefined sequence, that is, operations (tasks) must be performed in a given order and on a specific machine. The problem solution indicates the ideal jobs which are assigned to machines at particular times. Common scheduling objective is to minimize the maximum length of the schedule which also called makespan. Of course, we can consider other objectives such as minimize tardy jobs, minimize total weighted earliness and tardiness (TWET), and so on.
 
 ## Example: 15×15 Job Shop Scheduling Problem ##
-This example is a job shop scheduling problem from E. Taillard (1993). This test is also known as TA01 in the literature, and its optimal makespan is known to be 1,231 (E.D. Taillard, 1994). <br/>
-There are 15 jobs (J1-J15) and 15 machines (M1-M15). Every job must be processed on each of the 15 machines in a predefined sequence (O1-O15). Our objective is to minimize the completion time of the last job to be processed, known as the makespan. <br/><br/>
+This example is a job shop scheduling problem from E. Taillard (1993).<br/>
+This test is also known as TA01 in the literature, and its optimal makespan is known to be 1,231 (E.D. Taillard, 1994). <br/>
+There are 15 jobs (J1-J15) and 15 machines (M1-M15).<br/>
+Every job must be processed on each of the 15 machines in a predefined sequence (O1-O15).<br/>
+Our objective is to minimize the completion time of the last job to be processed, known as the makespan. <br/><br/>
 The dataset is given as follows:
-<br/>
+<br/><br/>
 ▸ Processing Time 
 
  Time |  M1  |  M2  |  M3  |  M4  |  M5  |  M6  |  M7  |  M8  |  M9  |  M10 |  M11 |  M12 |  M13 |  M14 |  M15 |
