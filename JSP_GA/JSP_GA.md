@@ -18,7 +18,7 @@ In this article, we will introduce how to implement the genetic algorithm on sch
 Below is the simple example of JSP. There are four jobs (J1-J4) and four machines (M1-M4). There exist certain fixed routes (sequence of machines) which may not be the same for each job, as Figure 1 shows. Then, we can reorganize the routes and get the Table 1 which shows the machines sequence. And we may also know the processing time dataset, as shown in the Table 2. At last, we can follow the rules of JSP and find out feasible solutions. In Figure 2, the Gantt Chart is used to show our result.
 
 <div align=center>
-<img src="https://github.com/ChinYiTseng/IMS/blob/master/JSP_GA/JSP_simple.png" alt="GitHub" width="614" height="356"/>
+<img src="https://github.com/ChinYiTseng/IMS/blob/master/JSP_GA/JSP_simplecase.png" alt="GitHub" width="614" height="356"/>
 </div>
 <br/>
 
@@ -76,7 +76,42 @@ Machine |  O1  |  O2  |  O3  |  O4  |  O5  |  O6  |  O7  |  O8  |  O9  |  O10 | 
 
 ### Problem Definition and Parameters Setting ###
 Input the information according to problem definition. <br/>
-Here, we will read Microsoft Excel spreadsheet file instead of directly giving a value into the code.
+Here, we will read Microsoft Excel spreadsheet file ([download](https://github.com/ChinYiTseng/IMS/raw/master/JSP_GA/JSP_dataset.xlsx)) instead of directly giving a value into the code.
 ```matlab
+% xlsread(filename,sheet,xlRange), use Excel range syntax in "xlRange".
+j_num = xlsread('JSP_dataset.xlsx','Parameters','B2'); % Job Counts
+ma_num = xlsread('JSP_dataset.xlsx','Parameters','B3'); % Machine Counts
+PT = xlsread('JSP_dataset.xlsx','ProcessingTime','B2:P16'); % Processing Time
+Ma = xlsread('JSP_dataset.xlsx','MachineSequence','B2:P16'); % Machine Sequence
+```
 
+Let user decide the populationsize, crossover rate, mutation rate and iteration times.
+```matlab
+population_size = input('Please input the size of population: ');  % Ask user to input the population size.
+if isempty (population_size)  % Set the default value (it works if user doesn't input anything to population_size).
+    population_size = 10;  % Default value for population_size is equal to 10
+end
+
+crossover_rate = input('Please input the Crossover Rate: ');
+if isempty (crossover_rate) 
+    crossover_rate = 0.8;
+end
+
+mutation_rate = input('Please input the Mutation Rate: '); 
+if isempty (mutation_rate) 
+    mutation_rate = 0.1;
+end
+
+Num_Iteration = input('Please input the Iteration Times: '); 
+if isempty (Num_Iteration) 
+    Num_Iteration = 1000;
+end
+```
+
+### Executive Time ###
+Calculate executive time.
+```matlab
+tic  % Start stopwatch timer
+…
+toc  % Read elapsed time from stopwatch
 ```
