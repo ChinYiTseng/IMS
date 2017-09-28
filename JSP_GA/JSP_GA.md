@@ -34,7 +34,7 @@ The dataset is given as follows:
 <br/><br/>
 ▸ Processing Time 
 
- Time |  M1  |  M2  |  M3  |  M4  |  M5  |  M6  |  M7  |  M8  |  M9  |  M10 |  M11 |  M12 |  M13 |  M14 |  M15 |
+ Time |  O1  |  O2  |  O3  |  O4  |  O5  |  O6  |  O7  |  O8  |  O9  |  O10 |  O11 |  O12 |  O13 |  O14 |  O15 |
  :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
   J1  |  94  |  66  |  10  |  53  |  26  |  15  |  65  |  82  |  10  |  27  |  93  |  92  |  96  |  70  |  83  |
   J2  |  74  |  31  |  88  |  51  |  57  |  78  |   8  |   7  |  91  |  79  |  18  |  51  |  18  |  99  |  33  |
@@ -57,7 +57,7 @@ The dataset is given as follows:
 Machine |  O1  |  O2  |  O3  |  O4  |  O5  |  O6  |  O7  |  O8  |  O9  |  O10 |  O11 |  O12 |  O13 |  O14 |  O15 |
  :--:   | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
   J1    |   7  |  13  |   5  |   8  |   4  |   3  |  11  |  12  |   9  |  15  |  10  |  14  |    6 |    1 |    2 |
-  J2    |    5  |   6  |   8  |  15  |  14  |   9  |  12  |  10  |   7  |  11  |   1  |   4  |   13 |    2 |    3 |
+  J2    |   5  |   6  |   8  |  15  |  14  |   9  |  12  |  10  |   7  |  11  |   1  |   4  |   13 |    2 |    3 |
   J3    |   2  |   9  |  10  |  13  |   7  |  12  |  14  |   6  |   1  |   3  |   8  |  11  |    5 |    4 |   15 |
   J4    |   6  |   3  |  10  |   7  |  11  |   1  |  14  |   5  |   8  |  15  |  12  |   9  |   13 |    2 |    4 |
   J5    |   8  |   9  |   7  |  11  |   5  |  10  |   3  |  15  |  13  |   6  |   2  |  14  |   12 |    1 |    4 |
@@ -72,3 +72,11 @@ Machine |  O1  |  O2  |  O3  |  O4  |  O5  |  O6  |  O7  |  O8  |  O9  |  O10 | 
   J14   |   9  |  15  |   5  |  14  |   6  |   7  |  10  |   2  |  13  |   8  |  12  |  11  |    4 |    3 |    1 |
   J15   |  11  |   9  |  13  |   7  |   5  |   2  |  14  |  15  |  12  |   1  |   8  |   4  |    3 |   10 |    6 |
   
+### Encoding and Decoding ###
+
+### Problem Definition and Parameters Setting ###
+Input the information according to problem definition. <br/>
+Here, we will read Microsoft Excel spreadsheet file instead of directly giving a value into the code.
+```matlab
+
+```
