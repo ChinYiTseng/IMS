@@ -14,11 +14,13 @@ After we got the basic concepts of the Genetic Algorithm (GA), we might desire t
 <br/>
 In this article, we will introduce how to implement the genetic algorithm on scheduling problem. We use a job shop problem (JSP) as an example. In the job shop problem, multiple jobs are processed on several machines. Each job consists of several operations (tasks) with predefined sequence, that is, operations (tasks) must be performed in a given order and on a specific machine. The problem solution indicates the ideal jobs which are assigned to machines at particular times. Common scheduling objective is to minimize the maximum length of the schedule which also called makespan. Of course, we can consider other objectives such as minimize tardy jobs, minimize total weighted earliness and tardiness (TWET), and so on.
 <br/>
+<br/>
 Below is the simple example of JSP. There are four jobs (J1-J4) and four machines (M1-M4). There exist certain fixed routes (sequence of machines) which may not be the same for each job, as Figure 1 shows. Then, we can reorganize the routes and get the Table 1 which shows the machines sequence. And we may also know the processing time dataset, as shown in the Table 2. At last, we can follow the rules of JSP and find out feasible solutions. In Figure 2, the Gantt Chart is used to show our result.
 
 <div align=center>
 <img src="https://github.com/ChinYiTseng/IMS/blob/master/JSP_GA/JSP_simple.png" alt="GitHub" width="614" height="356"/>
 </div>
+<br/>
 
 So now let's learn and try to implement the GA on the 15×15 Job Shop Scheduling Problem! 
 
