@@ -174,13 +174,76 @@ For mutaion, one gene in each chromosome alters if the probability is less than 
 
 ```matlab
 for m = 1:population_size
-    for j= 1:j_num*ma_num
+    for j = 1:j_num*ma_num
         mutation_prob = rand();  % Generate the random probability.
         if mutation_rate >= mutation_prob  % Chromosomes mutate only if mutation rate is larger than random probability.
             ran_num = rand();  % Generate the random probability, and this probability will be clustered to one value which represents tha mutation result.
             for k = 0:(j_num-1)
                 if ran_num > k*(1/j_num) && ran_num <= (k+1)*(1/j_num)
                     population_list(m,j) = k+1;
+                end
+            end
+        end
+    end
+end
+```
+
+### Repairment ###
+The crossover and mutation may break up the chromosome rules and give us one unfeasible solution, so repair our chromosomes is an important step. Here, we repair the chromosomes and let them become feasible solutions.
+
+```matlab
+for m = 1:population_size 
+    % Calculate the job occurance counts in the chromosome.
+    repair_or_not = zeros(1, j_num); % Record the occurance counts of each job.
+    for j = 1:j_num*ma_num
+        for k = 1:j_num
+            if population_list(m,j) == k
+                repair_or_not(k) = repair_or_not(k) + 1;
+            end
+        end
+    end
+    
+    % Deal with the jobs with occurance counts larger than machine counts.
+    for k = 1:j_num
+        if repair_or_not(k) > ma_num
+            r_ran_num = randperm(repair_or_not(k));  % Randomly choose certain number of genes at certain positions to be repaired.
+            r_ran_num = sort(r_ran_num(1:(repair_or_not(k)-ma_num)));
+            appeartime = 0;  
+            for j = 1:j_num*ma_num
+                if population_list(m,j) == k
+                    appeartime = appeartime + 1;
+                    for n = 1:(repair_or_not(k)-ma_num)
+                        if appeartime == r_ran_num(n)
+                            population_list(m,j) = 0;   % The selected gene will be substitued by 0.
+                        end
+                    end
+                end
+            end
+        end
+    end
+    
+    % Deal with the jobs with occurance counts less than machine counts.
+    for k = 1:j_num 
+        if repair_or_not(k) < ma_num
+            zeroappeartime = 0;
+            appeartime = 0;
+            
+            for j = 1:j_num*ma_num  % Calculate the occurance times of 0.
+                if population_list(m,j) == 0
+                    zeroappeartime = zeroappeartime + 1;
+                end
+            end
+            
+            r_ran_num = randperm(zeroappeartime);  % Randomly choose certain number of genes at certain positions to be repaired.
+            r_ran_num = sort(r_ran_num(1:ma_num-(repair_or_not(k))));
+            for j = 1:j_num*ma_num
+                if population_list(m,j) == 0
+                    appeartime = appeartime + 1;
+                    for n = 1:(ma_num-repair_or_not(k))
+                        if appeartime == r_ran_num(n)
+                            population_list(m,j) = k;  % The selected gene will be substitued by the jobs value which occurance counts less than machine counts.
+                        end
+                    end
                 end
             end
         end
