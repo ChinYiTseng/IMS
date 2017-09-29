@@ -73,6 +73,12 @@ Machine |  O1  |  O2  |  O3  |  O4  |  O5  |  O6  |  O7  |  O8  |  O9  |  O10 | 
   J15   |  11  |   9  |  13  |   7  |   5  |   2  |  14  |  15  |  12  |   1  |   8  |   4  |    3 |   10 |    6 |
   
 ### Encoding and Decoding ###
+For solving the JSP, we use operation-based representation to encode a schedule. The schedule is represented as a sequence of operations and each gene stand for one operation. For a *n*-job and *m*-machine problem,a chromosome contains *n*×*m* genes. Each job appears in the chromosome exactly *m* times. A simple explaination is as follow:
+
+<div align=center>
+<img src="https://github.com/ChinYiTseng/IMS/blob/master/JSP_GA/JSP_endode_decode.png" alt="GitHub", width="626" height="341"/>
+</div>
+<br/>
 
 ### Problem Definition and Parameters Setting ###
 Input the information according to problem definition. <br/>
