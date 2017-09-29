@@ -226,14 +226,12 @@ for m = 1:population_size
     for k = 1:j_num 
         if repair_or_not(k) < ma_num
             zeroappeartime = 0;
-            appeartime = 0;
-            
+            appeartime = 0;      
             for j = 1:j_num*ma_num  % Calculate the occurance times of 0.
                 if population_list(m,j) == 0
                     zeroappeartime = zeroappeartime + 1;
                 end
             end
-            
             r_ran_num = randperm(zeroappeartime);  % Randomly choose certain number of genes at certain positions to be repaired.
             r_ran_num = sort(r_ran_num(1:ma_num-(repair_or_not(k))));
             for j = 1:j_num*ma_num
@@ -250,3 +248,86 @@ for m = 1:population_size
     end
 end
 ```
+
+### Evaluation ###
+After we generate the offsprings, fitness values are calculated.
+Check the results, and record it if the result in this iteration is better than previous iterations.
+```matlab
+```
+
+### Selection ###
+Calculate the total fitness for the offsprings.
+```matlab
+Totalfitness = 0;
+for m = 1:population_size
+    Totalfitness = Totalfitness + fitness(m,3);
+end
+```
+Calculate selection probability for each chromosome.
+```matlab
+pk = zeros(population_size,1);  % Record selection probability of offspring population.
+
+for m = 1:population_size
+    pk(m) = fitness(m,3) / Totalfitness;
+end
+```
+
+Calculate cumulative probability for each chromosome.
+```matlab
+qk = zeros(population_size,1); % Record cumulative probability of offspring population.
+
+for m = 1:population_size
+    cumulative = 0;
+    for j = 1:m
+        cumulative = cumulative + pk(j);
+    end
+    qk(m) = cumulative;
+end
+```
+
+Memorize the population, and prepare to generate new population.
+```matlab
+last_population_list = population_list;  % Memorize the population.
+population_list = zeros(population_size, bits);  % Used to record new population.
+```
+
+Generate a random number from the range [0,1].
+```matlab
+selection_rand = zeros(1,population_size);  % Record the random number.
+
+for i = 1:population_size
+    selection_rand(i) = rand();
+end
+```
+
+Use roulette wheel and select the chromosome to be included in new population.
+```matlab
+for i = 1:population_size
+    if (selection_rand(i) <= qk(1))
+	population_list(i, 1:bits) = last_population_list(i, 1:bits);
+    else
+    	for j = 1:(population_size-1)
+	    if (selection_rand(i) > qk(j) && selection_rand(i) <= qk(j+1))
+		population_list(i, 1:bits) = last_population_list((j+1), 1:bits);
+ 		break;
+  	    end
+	end
+    end
+end
+```
+
+### Report the Results ###
+At last, we can give report to show our final solution.
+```matlab
+disp('--- Final Report ---');
+fprintf('Optimal_Value : %d\n',Tbest);
+fprintf('x1 : %d\n',x1_best);
+fprintf('x2 : %d\n',x2_best);
+```
+<br>
+So far, the genetic algorithm is introduced. 
+<br>
+Noticed that implement the above code still needs to add something (E.g., considering iterations) and make it complete. 
+<br><br>
+
+Sample code is [HERE](https://github.com/PO-LAB/Intelligent-Manufacturing-Systems/blob/master/Genetic_Algorithm/Genetic_Algorithm.m).
