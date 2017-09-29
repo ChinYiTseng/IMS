@@ -142,12 +142,11 @@ end
 ### Crossover ###
 Here, pairs of parent solutions are selected for two-point crossover, which calls for two points to be selected on the parent chromosomes. Everything between the two points is swapped between the chormosomes, rendering two offspring chromosomes.
 ```matlab
-% Corssover
 S = randperm(population_size); % Decide pairs of parent chromosomes.
 
 for m = 1:(population_size/2)
     crossover_prob = rand(); % Generate the random probability.
-    if (crossover_rate >= crossover_prob) % Chromosomes do crossover only if crossover rate is larger than random probability.
+    if (crossover_rate >= crossover_prob) % Crossover is happened only if crossover rate is larger than random probability.
         parent_1 = population_list(S(-1+2*m),1:j_num*ma_num); % Parent chromosome 1
         parent_2 = population_list(S(2*m),1:j_num*ma_num); % Parent chromosome 2
         
@@ -166,6 +165,25 @@ for m = 1:(population_size/2)
         % Save the results of crossover.
         population_list(S(-1+2*m),1:j_num*ma_num) = child_1;
         population_list(S(2*m),1:j_num*ma_num) = child_2;
+    end
+end
+```
+
+### Mutation ###
+For mutaion, one gene in each chromosome alters if the probability is less than mutation rate. If the gene is 0, it would be flipped into 1; otherwise, the gene would flipped into 0 from 1.
+
+```matlab
+for m = 1:population_size
+    for i= 1:j_num*ma_num
+        mutation_prob = rand();  % Generate the random probability.
+        if mutation_rate >= mutation_prob  % Chromosomes mutate only if mutation rate is larger than random probability.
+            ran_num = rand();  % Generate the random probability, and this probability will be clustered to one value which represents tha mutation result.
+            for k = 0:(j_num-1)
+                if ran_num > k*(1/j_num) && ran_num <= (k+1)*(1/j_num)
+                    population_list(i,j) = k+1;
+                end
+            end
+        end
     end
 end
 ```
