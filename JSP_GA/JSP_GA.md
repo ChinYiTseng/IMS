@@ -170,17 +170,17 @@ end
 ```
 
 ### Mutation ###
-For mutaion, one gene in each chromosome alters if the probability is less than mutation rate. If the gene is 0, it would be flipped into 1; otherwise, the gene would flipped into 0 from 1.
+For mutaion, one gene in each chromosome alters if the probability is less than mutation rate. The gene which needs mutation is changed to another value. This may cause some jobs appear in the chromosome more than *m* times. Thus, we will have one step to repair it in the later. 
 
 ```matlab
 for m = 1:population_size
-    for i= 1:j_num*ma_num
+    for j= 1:j_num*ma_num
         mutation_prob = rand();  % Generate the random probability.
         if mutation_rate >= mutation_prob  % Chromosomes mutate only if mutation rate is larger than random probability.
             ran_num = rand();  % Generate the random probability, and this probability will be clustered to one value which represents tha mutation result.
             for k = 0:(j_num-1)
                 if ran_num > k*(1/j_num) && ran_num <= (k+1)*(1/j_num)
-                    population_list(i,j) = k+1;
+                    population_list(m,j) = k+1;
                 end
             end
         end
