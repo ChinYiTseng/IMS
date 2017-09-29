@@ -131,7 +131,7 @@ If the gene is 0, it would be flipped into 1; otherwise, the gene would flipped 
 ```matlab
 for m = 1:population_size
     mutation_prob = rand();  % Generate the random probability.
-    if (mutation_rate >= mutation_prob  % Chromosomes do mutation only if mutation rate is larger than random probability.
+    if mutation_rate >= mutation_prob  % Chromosomes do mutation only if mutation rate is larger than random probability.
     	m_rand = randperm(bits,1);  % Randomly choose one mutation point.
 	
         if (population_list(m,m_rand) == 0)  % Mutation: 0→1 or 1→0
