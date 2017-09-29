@@ -121,3 +121,51 @@ tic  % Start stopwatch timer
 …
 toc  % Read elapsed time from stopwatch
 ```
+
+### Initialize the Solution ###
+Generate initial population (solution).
+```matlab
+population_list = zeros(population_size, j_num*ma_num); % Record population (includes all chromosomes).
+
+for i = 1:population_size 
+    population_list(i,1:j_num*ma_num) = randperm(j_num*ma_num); % Random permutation of the integers from 1 to j_num*ma_num inclusive.
+    for j = 1:j_num*ma_num % cluster each gene as one operation. For example, k*ma_num < gene value < (k+1)*ma_num, then this gene value is job (k+1).  
+        for k = 0:(j_num-1)
+            if population_list(i,j) > k*ma_num && population_list(i,j) <= (k+1)*ma_num
+                population_list(i,j) = k+1;
+            end
+        end
+    end
+end
+```
+
+### Crossover ###
+Here, pairs of parent solutions are selected for two-point crossover, which calls for two points to be selected on the parent chromosomes. Everything between the two points is swapped between the chormosomes, rendering two offspring chromosomes.
+```matlab
+% Corssover
+S = randperm(population_size); % Decide pairs of parent chromosomes.
+
+for m = 1:(population_size/2)
+    crossover_prob = rand(); % Generate the random probability.
+    if (crossover_rate >= crossover_prob) % Chromosomes do crossover only if crossover rate is larger than random probability.
+        parent_1 = population_list(S(-1+2*m),1:j_num*ma_num); % Parent chromosome 1
+        parent_2 = population_list(S(2*m),1:j_num*ma_num); % Parent chromosome 2
+        
+        child_1 = parent_1; % Record offspring chromosome 1
+        child_2 = parent_2; % Record offspring chromosome 2
+        
+        cutpoint = randperm(j_num*ma_num); % Randomly choose two cut points.
+        
+        % two-point crossover
+        cutpoint = sort(cutpoint(1:2)); % Sort the two cut points in ascending order.
+        for k = cutpoint(1):cutpoint(2) 
+            child_1(k) = parent_2(k);
+            child_2(k) = parent_1(k);
+        end
+        
+        % Save the results of crossover.
+        population_list(S(-1+2*m),1:j_num*ma_num) = child_1;
+        population_list(S(2*m),1:j_num*ma_num) = child_2;
+    end
+end
+```
