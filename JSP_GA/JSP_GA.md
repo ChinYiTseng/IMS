@@ -297,8 +297,8 @@ end
 ```
 
 Calculate the fitness value. <br/>
-Here, we also check whether there exists idle time between two operation on the machine or not. <br/>
-If there exists idle , we arragne the job to be processed earlier.
+Here, we have to check whether there exists idle time between two operation on the machine or not. <br/>
+If there exists idle, we arragne the job to be processed earlier.
 ```matlab
 for m = 1:population_size*2 
     j_count = zeros(1,j_num); % Record the completion time of the job.
@@ -343,6 +343,7 @@ for m = 1:population_size*2
                     end
                 end                
             end
+	    
             if revise == 0
                 j_count(Gen(m,j)) = j_count(Gen(m,j)) + Gen_t(m,j);
                 m_count(Gen_m(m,j)) = m_count(Gen_m(m,j)) + Gen_t(m,j);
@@ -358,8 +359,9 @@ for m = 1:population_size*2
             end
         end          
     end
-    fitness(m,1) = max(j_count);
-    fitness(m,2:1+j_num*ma_num) = Gen(m,1:j_num*ma_num);
+    
+    fitness(m,1) = max(j_count); % Record the fitness value.
+    fitness(m,2:1+j_num*ma_num) = Gen(m,1:j_num*ma_num); % Record the chromosome.
 end
 ```
 ### Selection ###
