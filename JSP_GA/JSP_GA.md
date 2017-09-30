@@ -24,53 +24,44 @@ Below is the simple example of JSP. There are four jobs (J1-J4) and four machine
 
 So now let's learn and try to implement the GA on the 15×15 Job Shop Scheduling Problem! 
 
-## Example: 15×15 Job Shop Scheduling Problem ##
-This example is a job shop scheduling problem from E. Taillard (1993).<br/>
-This test is also known as TA01 in the literature, and its optimal makespan is known to be 1,231 (E.D. Taillard, 1994). <br/><br/>
-There are 15 jobs (J1-J15) and 15 machines (M1-M15).<br/>
-Every job must be processed on each of the 15 machines in a predefined sequence (O1-O15).<br/>
+## Example: 10×10 Job Shop Scheduling Problem ##
+This example is a job shop scheduling problem from Lawrence (1984).<br/>
+This test is also known as LA19 in the literature, and its optimal makespan is known to be 842 (Applegate and Cook, 1991). <br/><br/>
+There are 10 jobs (J1-J15) and 10 machines (M1-M10).<br/>
+Every job must be processed on each of the 10 machines in a predefined sequence (O1-O10).<br/>
 Our objective is to minimize the completion time of the last job to be processed, known as the makespan. <br/><br/>
 The dataset is given as follows:
 <br/><br/>
 ▸ Processing Time 
 
- Time |  O1  |  O2  |  O3  |  O4  |  O5  |  O6  |  O7  |  O8  |  O9  |  O10 |  O11 |  O12 |  O13 |  O14 |  O15 |
- :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
-  J1  |  94  |  66  |  10  |  53  |  26  |  15  |  65  |  82  |  10  |  27  |  93  |  92  |  96  |  70  |  83  |
-  J2  |  74  |  31  |  88  |  51  |  57  |  78  |   8  |   7  |  91  |  79  |  18  |  51  |  18  |  99  |  33  |
-  J3  |   4  |  82  |  40  |  86  |  50  |  54  |  21  |   6  |  54  |  68  |  82  |  20  |  39  |  35  |  68  |
-  J4  |  73  |  23  |  30  |  30  |  53  |  94  |  58  |  93  |  32  |  91  |  30  |  56  |  27  |  92  |   9  |
-  J5  |  78  |  23  |  21  |  60  |  36  |  29  |  95  |  99  |  79  |  76  |  93  |  42  |  52  |  42  |  96  |
-  J6  |  29  |  61  |  88  |  70  |  16  |  31  |  65  |  83  |  78  |  26  |  50  |  87  |  62  |  14  |  30  |
-  J7  |  18  |  75  |  20  |   4  |  91  |  68  |  19  |  54  |  85  |  73  |  43  |  24  |  37  |  87  |  66  |
-  J8  |  32  |  52  |   9  |  49  |  61  |  35  |  99  |  62  |   6  |  62  |   7  |  80  |   3  |  57  |   7  |
-  J9  |  85  |  30  |  96  |  91  |  13  |  87  |  82  |  83  |  78  |  56  |  85  |   8  |  66  |  88  |  15  |
-  J10 |   5  |  59  |  30  |  60  |  41  |  17  |  66  |  89  |  78  |  88  |  69  |  45  |  82  |   6  |  13  |
-  J11 |  90  |  27  |   1  |   8  |  91  |  80  |  89  |  49  |  32  |  28  |  90  |  93  |   6  |  35  |  73  |
-  J12 |  47  |  43  |  75  |   8  |  51  |   3  |  84  |  34  |  28  |  60  |  69  |  45  |  67  |  58  |  87  |
-  J13 |  65  |  62  |  97  |  20  |  31  |  33  |  33  |  77  |  50  |  80  |  48  |  90  |  75  |  96  |  44  |
-  J14 |  28  |  21  |  51  |  75  |  17  |  89  |  59  |  56  |  63  |  18  |  17  |  30  |  16  |   7  |  35  |
-  J15 |  57  |  16  |  42  |  34  |  37  |  26  |  68  |  73  |   5  |   8  |  12  |  87  |  83  |  20  |  97  |
+ Time |  O1  |  O2  |  O3  |  O4  |  O5  |  O6  |  O7  |  O8  |  O9  |  O10 |
+ :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+  J1  |  44  |   5  |  47  |  97  |   9  |  84  |  77  |  96  |  58  |  89  |
+  J2  |  15  |  31  |  87  |  57  |  77  |  85  |  81  |  39  |  73  |  21  |
+  J3  |  82  |  22  |  10  |  70  |  49  |  40  |  34  |  48  |  80  |  71  |
+  J4  |  91  |  17  |  62  |  75  |  47  |  11  |   7  |  72  |  35  |  55  |
+  J5  |  71  |  90  |  75  |  64  |  94  |  15  |  12  |  67  |  20  |  50  |
+  J6  |  70  |  93  |  77  |  29  |  58  |  93  |  68  |  57  |   7  |  52  |
+  J7  |  87  |  63  |  26  |   6  |  82  |  27  |  56  |  48  |  36  |  95  |
+  J8  |  36  |  15  |  41  |  78  |  76  |  84  |  30  |  76  |  36  |   8  |
+  J9  |  88  |  81  |  13  |  82  |  54  |  13  |  29  |  40  |  78  |  75  |
+  J10 |  88  |  54  |  64  |  32  |  52  |   6  |  54  |  82  |   6  |  26  |
+ 
 
 ▸ Machines Sequence
 
-Machine |  O1  |  O2  |  O3  |  O4  |  O5  |  O6  |  O7  |  O8  |  O9  |  O10 |  O11 |  O12 |  O13 |  O14 |  O15 |
- :--:   | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
-  J1    |   7  |  13  |   5  |   8  |   4  |   3  |  11  |  12  |   9  |  15  |  10  |  14  |    6 |    1 |    2 |
-  J2    |   5  |   6  |   8  |  15  |  14  |   9  |  12  |  10  |   7  |  11  |   1  |   4  |   13 |    2 |    3 |
-  J3    |   2  |   9  |  10  |  13  |   7  |  12  |  14  |   6  |   1  |   3  |   8  |  11  |    5 |    4 |   15 |
-  J4    |   6  |   3  |  10  |   7  |  11  |   1  |  14  |   5  |   8  |  15  |  12  |   9  |   13 |    2 |    4 |
-  J5    |   8  |   9  |   7  |  11  |   5  |  10  |   3  |  15  |  13  |   6  |   2  |  14  |   12 |    1 |    4 |
-  J6    |   6  |   4  |  13  |  14  |  12  |   5  |  15  |   8  |   3  |   2  |  11  |   1  |   10 |    7 |    9 |
-  J7    |  13  |   4  |   8  |   9  |  15  |   7  |   2  |  12  |   5  |   6  |   3  |  11  |    1 |   14 |   10 |
-  J8    |  12  |   6  |   1  |   8  |  13  |  14  |  15  |   2  |   3  |   9  |   5  |   4  |   10 |    7 |   11 |
-  J9    |  11  |  12  |   7  |  15  |   1  |   2  |   3  |   6  |  13  |   5  |   9  |   8  |   10 |   14 |    4 |
-  J10   |   7  |  12  |  10  |   3  |   9  |   1  |  14  |   4  |  11  |   8  |   2  |  13  |   15 |    5 |    6 |
-  J11   |   5  |   8  |  14  |   1  |   6  |  13  |   7  |   9  |  15  |  11  |   4  |   2  |   12 |   10 |    3 |
-  J12   |   3  |  15  |   1  |  13  |   7  |  11  |   8  |   6  |   9  |  10  |  14  |   2  |    4 |   12 |    5 |
-  J13   |   6  |   9  |  11  |   3  |   4  |   7  |  10  |   1  |  14  |   5  |   2  |  12  |   13 |    8 |   15 |
-  J14   |   9  |  15  |   5  |  14  |   6  |   7  |  10  |   2  |  13  |   8  |  12  |  11  |    4 |    3 |    1 |
-  J15   |  11  |   9  |  13  |   7  |   5  |   2  |  14  |  15  |  12  |   1  |   8  |   4  |    3 |   10 |    6 |
+Machine |  O1  |  O2  |  O3  |  O4  |  O5  |  O6  |  O7  |  O8  |  O9  |  O10 |
+ :--:   | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+  J1    |   3  |   4  |   6  |   5  |   1  |   8  |   9  |  10  |   2  |   7  |
+  J2    |   5  |   8  |   2  |   9  |   1  |   4  |   3  |   6  |  10  |   7  |
+  J3    |  10  |   7  |   5  |   4  |   2  |   1  |   9  |   3  |   8  |   6  |
+  J4    |   2  |   3  |   8  |   6  |   9  |   5  |   4  |   7  |  10  |   1  |
+  J5    |   7  |   2  |   4  |   1  |   3  |   9  |   5  |   8  |  10  |   6  |
+  J6    |   8  |   6  |   9  |   3  |   5  |   7  |   4  |   2  |  10  |   1  |
+  J7    |   7  |   2  |   5  |   6  |   3  |   4  |   8  |   9  |  10  |   1  |
+  J8    |   1  |   6  |   9  |  10  |   4  |   7  |   5  |   8  |   3  |   2  |
+  J9    |   6  |   3  |   4  |   7  |   5  |   8  |   9  |  10  |   2  |   1  |
+  J10   |  10  |   5  |   7  |   8  |   1  |   3  |   9  |   6  |   4  |   2  |
   
 ### Encoding and Decoding ###
 For solving the JSP, we use operation-based representation to encode a schedule. The schedule is represented as a sequence of operations and each gene stand for one operation. For a *n*-job and *m*-machine problem,a chromosome contains *n*×*m* genes. Each job appears in the chromosome exactly *m* times. A simple explaination is as follow:
@@ -87,15 +78,15 @@ Here, we will read Microsoft Excel spreadsheet file ([download](https://github.c
 % xlsread(filename,sheet,xlRange), use Excel range syntax in "xlRange".
 j_num = xlsread('JSP_dataset.xlsx','Parameters','B2'); % Job Counts
 ma_num = xlsread('JSP_dataset.xlsx','Parameters','B3'); % Machine Counts
-PT = xlsread('JSP_dataset.xlsx','ProcessingTime','B2:P16'); % Processing Time
-Ma = xlsread('JSP_dataset.xlsx','MachineSequence','B2:P16'); % Machine Sequence
+PT = xlsread('JSP_dataset.xlsx','ProcessingTime','B2:K11'); % Processing Time
+Ma = xlsread('JSP_dataset.xlsx','MachineSequence','B2:K11'); % Machine Sequence
 ```
 
 Let user decide the populationsize, crossover rate, mutation rate and iteration times.
 ```matlab
 population_size = input('Please input the size of population: ');  % Ask user to input the population size.
 if isempty (population_size)  % Set the default value (it works if user doesn't input anything to population_size).
-    population_size = 10;  % Default value for population_size is equal to 10
+    population_size = 20;  % Default value for population_size is equal to 10
 end
 
 crossover_rate = input('Please input the Crossover Rate: ');
@@ -110,7 +101,7 @@ end
 
 Num_Iteration = input('Please input the Iteration Times: '); 
 if isempty (Num_Iteration) 
-    Num_Iteration = 1000;
+    Num_Iteration = 50000;
 end
 ```
 
@@ -148,6 +139,8 @@ Scheduling_best = zeros(1, j_num*ma_num);  % Record the scheduling with best fit
 ### Crossover ###
 Here, pairs of parent solutions are selected for two-point crossover, which calls for two points to be selected on the parent chromosomes. Everything between the two points is swapped between the chormosomes, rendering two offspring chromosomes.
 ```matlab
+population_list_tmp = population_list;  % Record the parent chromosomes.
+
 S = randperm(population_size); % Decide pairs of parent chromosomes.
 
 for m = 1:(population_size/2)
@@ -256,11 +249,117 @@ end
 ```
 
 ### Evaluation ###
-After we generate the offsprings, fitness values are calculated.
-Check the results, and record it if the result in this iteration is better than previous iterations.
+After we generate the offsprings, fitness values are calculated. <br/><br/>
+Initialize the setting.
+<br/>
 ```matlab
+population_list = [population_list_tmp; population_list]; % Include parent and offspring chromosomes.
+
+fitness = zeros(population_size*2, 1+j_num*ma_num); % Record fitness value (objective value) and its chromosome. 
+Gen = zeros(population_size*2,j_num*ma_num); % Record the job of each gene.
+Gen_m = zeros(population_size*2,j_num*ma_num); % Record the machine of each gene.
+Gen_t = zeros(population_size*2,j_num*ma_num); % Record the processing time of each gene.
+MachineJob = zeros(population_size*2,j_num*ma_num); % Record the job sequence of each machine.
+MachineTimeBegin = zeros(population_size*2,j_num*ma_num); % Record the starting time of each operation on the machine.
+MachineTimeEnd = zeros(population_size*2,j_num*ma_num); % Record the completion time of each operation on the machine.
 ```
 
+Decoding
+```matlab
+for m = 1:population_size*2 
+    Gen(m,1:j_num*ma_num) = population_list(m,1:j_num*ma_num); % Record the job of each gene.
+    
+    % Record that the job "Gen" is processed on machine "Gen_m" with processing time "Gen_t".
+    Ma2 = Ma;
+    PT2 = PT;
+    for j = 1:j_num*ma_num
+       for k = 1:ma_num
+            if Ma2(Gen(m,j),k) ~= 0
+                Gen_m(m,j) = Ma2(Gen(m,j),k); % Record the machine of each gene.
+                Gen_t(m,j) = PT2(Gen(m,j),k); % Record the processing time of each gene.
+                Ma2(Gen(m,j),k) = 0; % After the operation is recorded, change the machine sequence value to 0. 
+                break;
+            end
+        end
+    end
+    
+    % Record the job sequence of each machine.
+    t = 1; 
+    for k = 1:ma_num
+        for j = 1:j_num*ma_num
+            if Gen_m(m,j) == k
+                MachineJob(m,t) = Gen(m,j); 
+                t = t + 1;
+            end
+        end
+    end
+end
+```
+
+Calculate the fitness value. <br/>
+Here, we also check whether there exists idle time between two operation on the machine or not. <br/>
+If there exists idle , we arragne the job to be processed earlier.
+```matlab
+for m = 1:population_size*2 % 計算目標解的值
+    j_count = zeros(1,j_num); % 工作加工時間
+    m_count = zeros(1,ma_num); % machine加工時間
+    t_count = zeros(1,ma_num); % machine加工次數
+    for j = 1:j_num*ma_num
+        revise = 0; % 看有沒有工作往前排的情況
+        t_count(Gen_m(m,j)) = t_count(Gen_m(m,j)) + 1;
+        if t_count(Gen_m(m,j)) <= 2
+            j_count(Gen(m,j)) = j_count(Gen(m,j)) + Gen_t(m,j);
+            m_count(Gen_m(m,j)) = m_count(Gen_m(m,j)) + Gen_t(m,j);
+            if m_count(Gen_m(m,j)) < j_count(Gen(m,j))
+                m_count(Gen_m(m,j)) = j_count(Gen(m,j));
+            elseif m_count(Gen_m(m,j)) > j_count(Gen(m,j))
+                j_count(Gen(m,j)) = m_count(Gen_m(m,j));
+            end
+            MachineTimeBegin(m,Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))) = m_count(Gen_m(m,j)) - Gen_t(m,j);
+            MachineTimeEnd(m,Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))) = m_count(Gen_m(m,j));
+        elseif t_count(Gen_m(m,j)) >= 3
+            temBeginEnd = zeros(2,t_count(Gen_m(m,j)));
+            for k = 1:(t_count(Gen_m(m,j))-1)
+                temBeginEnd(1,1:t_count(Gen_m(m,j))-1) = MachineTimeBegin(m,Gen_m(m,j)*j_num-j_num+1:Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))-1);
+                temBeginEnd(2,1:t_count(Gen_m(m,j))-1) = MachineTimeEnd(m,Gen_m(m,j)*j_num-j_num+1:Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))-1);
+                temBeginEnd = sortrows(temBeginEnd');
+                temBeginEnd = temBeginEnd';
+                if j_count(Gen(m,j)) <= temBeginEnd(1,k+1)
+                    if j_count(Gen(m,j)) >= temBeginEnd(2,k)
+                        if temBeginEnd(1,k+1) - j_count(Gen(m,j)) >= Gen_t(m,j)
+                            MachineTimeBegin(m,Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))) = j_count(Gen(m,j));
+                            MachineTimeEnd(m,Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))) = j_count(Gen(m,j)) + Gen_t(m,j);
+                            break;
+                        end
+                    elseeif j_count(Gen(m,j)) < temBeginEnd(2,k)
+                        if temBeginEnd(1,k+1) - temBeginEnd(2,k) >= Gen_t(m,j)
+                            revise = 1;
+                            MachineTimeBegin(m,Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))) = MachineTimeEnd(m,Gen_m(m,j)*j_num-j_num+k);
+                            MachineTimeEnd(m,Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))) = MachineTimeEnd(m,Gen_m(m,j)*j_num-j_num+k) + Gen_t(m,j);
+                            break;
+                        end
+                    end
+                end                
+            end
+            if revise == 0
+                j_count(Gen(m,j)) = j_count(Gen(m,j)) + Gen_t(m,j);
+                m_count(Gen_m(m,j)) = m_count(Gen_m(m,j)) + Gen_t(m,j);
+                if m_count(Gen_m(m,j)) < j_count(Gen(m,j))
+                    m_count(Gen_m(m,j)) = j_count(Gen(m,j));
+                elseif m_count(Gen_m(m,j)) > j_count(Gen(m,j))
+                    j_count(Gen(m,j)) = m_count(Gen_m(m,j));
+                end
+                MachineTimeBegin(m,Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))) = m_count(Gen_m(m,j)) - Gen_t(m,j);
+                MachineTimeEnd(m,Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))) = m_count(Gen_m(m,j));                
+            elseif revise == 1
+                j_count(Gen(m,j)) = MachineTimeEnd(m,Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j)));
+            end
+        end          
+    end
+    fitness(m,1) = max(j_count);
+    fitness(m,2:1+j_num*ma_num) = Gen(m,1:j_num*ma_num);
+end
+```
 ### Selection ###
 Calculate the total fitness for the offsprings.
 ```matlab
