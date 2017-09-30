@@ -333,7 +333,7 @@ for m = 1:population_size*2
                             MachineTimeEnd(m,Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))) = j_count(Gen(m,j)) + Gen_t(m,j);
                             break;
                         end
-                    elseeif j_count(Gen(m,j)) < temBeginEnd(2,k)
+                    elseif j_count(Gen(m,j)) < temBeginEnd(2,k)
                         if temBeginEnd(1,k+1) - temBeginEnd(2,k) >= Gen_t(m,j)
                             revise = 1;
                             MachineTimeBegin(m,Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))) = MachineTimeEnd(m,Gen_m(m,j)*j_num-j_num+k);
@@ -364,27 +364,43 @@ for m = 1:population_size*2
     fitness(m,2:1+j_num*ma_num) = Gen(m,1:j_num*ma_num); % Record the chromosome.
 end
 ```
+
+Check the results, and record it if the result in this iteration is better than previous iterations.
+```matlab
+fitness_now = min(fitness(:,1));  % Find out the best fitness value from offsprings population in this iteration.
+if (fitness_now < Makespan_best)  % If the fitness value is better than best fitness value, update the Makespan_best and Scheduling_best.
+    Makespan_best = fitness_now;
+    Scheduling_best = fitness((find(fitness == Makespan_best)),2:1+j_num*ma_num);
+end
+```
+
 ### Selection ###
-Calculate the total fitness for the offsprings.
+In this example, we only consider the chromosomes with better performances from both parents and offsprings.
+```matlab
+fitness = sortrows(fitness,1); % Sort the chromosomes by theirs fitness values.
+population_list = fitness(1:population_size,2:1+j_num*ma_num); % Remain the chromosomes with better performaces.
+```
+
+Calculate the total fitness for the both parents and offsprings.
+Because our objective is to minimize the makespan, we should consider reciprocal of the fitness.
 ```matlab
 Totalfitness = 0;
 for m = 1:population_size
-    Totalfitness = Totalfitness + fitness(m,3);
+    Totalfitness = Totalfitness + 1/fitness(m,1)
 end
 ```
+
 Calculate selection probability for each chromosome.
 ```matlab
-pk = zeros(population_size,1);  % Record selection probability of offspring population.
-
+pk = zeros(population_size,1);
 for m = 1:population_size
-    pk(m) = fitness(m,3) / Totalfitness;
+    pk(m) = (1/fitness(m,1)) / Totalfitness;
 end
 ```
 
 Calculate cumulative probability for each chromosome.
 ```matlab
 qk = zeros(population_size,1); % Record cumulative probability of offspring population.
-
 for m = 1:population_size
     cumulative = 0;
     for j = 1:m
@@ -397,7 +413,7 @@ end
 Memorize the population, and prepare to generate new population.
 ```matlab
 last_population_list = population_list;  % Memorize the population.
-population_list = zeros(population_size, bits);  % Used to record new population.
+population_list = zeros(population_size, j_num*ma_num);  % Used to record new population.
 ```
 
 Generate a random number from the range [0,1].
@@ -411,13 +427,14 @@ end
 
 Use roulette wheel and select the chromosome to be included in new population.
 ```matlab
+
 for i = 1:population_size
-    if (selection_rand(i) <= qk(1))
-	population_list(i, 1:bits) = last_population_list(i, 1:bits);
+    if (selection_rand(m) <= qk(1))
+	population_list(m, 1:j_num*ma_num) = last_population_list(m, 1:j_num*ma_num);
     else
     	for j = 1:(population_size-1)
-	    if (selection_rand(i) > qk(j) && selection_rand(i) <= qk(j+1))
-		population_list(i, 1:bits) = last_population_list((j+1), 1:bits);
+	    if (selection_rand(m) > qk(j) && selection_rand(m) <= qk(j+1))
+		population_list(m, 1:j_num*ma_num) = last_population_list((j+1), 1:j_num*ma_num);
  		break;
   	    end
 	end
@@ -429,12 +446,10 @@ end
 At last, we can give report to show our final solution.
 ```matlab
 disp('--- Final Report ---');
-fprintf('Optimal_Value : %d\n',Tbest);
-fprintf('x1 : %d\n',x1_best);
-fprintf('x2 : %d\n',x2_best);
+fprintf('Optimal_Value : %d\n',Makespan_best);
 ```
 <br>
-So far, the genetic algorithm is introduced. 
+So far, the JSP using genetic algorithm is introduced. 
 <br>
 Noticed that implement the above code still needs to add something (E.g., considering iterations) and make it complete. 
 <br><br>
