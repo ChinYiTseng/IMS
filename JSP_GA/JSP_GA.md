@@ -300,14 +300,15 @@ Calculate the fitness value. <br/>
 Here, we also check whether there exists idle time between two operation on the machine or not. <br/>
 If there exists idle , we arragne the job to be processed earlier.
 ```matlab
-for m = 1:population_size*2 % 計算目標解的值
-    j_count = zeros(1,j_num); % 工作加工時間
-    m_count = zeros(1,ma_num); % machine加工時間
-    t_count = zeros(1,ma_num); % machine加工次數
+for m = 1:population_size*2 
+    j_count = zeros(1,j_num); % Record the completion time of the job.
+    m_count = zeros(1,ma_num); % Record the completion time of the machine.
+    t_count = zeros(1,ma_num); % Record the process counts of the machine.
     for j = 1:j_num*ma_num
-        revise = 0; % 看有沒有工作往前排的情況
+        revise = 0; % Used to check whether there exists idle time or not.
         t_count(Gen_m(m,j)) = t_count(Gen_m(m,j)) + 1;
-        if t_count(Gen_m(m,j)) <= 2
+	
+        if t_count(Gen_m(m,j)) <= 2 % If operations on the machine are less than or equal to 2, we don't need to check whether there exists idle time or not.
             j_count(Gen(m,j)) = j_count(Gen(m,j)) + Gen_t(m,j);
             m_count(Gen_m(m,j)) = m_count(Gen_m(m,j)) + Gen_t(m,j);
             if m_count(Gen_m(m,j)) < j_count(Gen(m,j))
@@ -317,7 +318,8 @@ for m = 1:population_size*2 % 計算目標解的值
             end
             MachineTimeBegin(m,Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))) = m_count(Gen_m(m,j)) - Gen_t(m,j);
             MachineTimeEnd(m,Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))) = m_count(Gen_m(m,j));
-        elseif t_count(Gen_m(m,j)) >= 3
+	    
+        elseif t_count(Gen_m(m,j)) >= 3 % If operations on the machine are more than or equal to 3, we need to consider the existense of idle time. 
             temBeginEnd = zeros(2,t_count(Gen_m(m,j)));
             for k = 1:(t_count(Gen_m(m,j))-1)
                 temBeginEnd(1,1:t_count(Gen_m(m,j))-1) = MachineTimeBegin(m,Gen_m(m,j)*j_num-j_num+1:Gen_m(m,j)*j_num-j_num+t_count(Gen_m(m,j))-1);
