@@ -12,7 +12,7 @@ After we got the basic concepts of the Genetic Algorithm (GA), we might desire t
 ✿ If we want to review the Genetic Algorithm, please check [HERE](https://github.com/PO-LAB/Intelligent-Manufacturing-Systems/blob/master/Genetic_Algorithm/Genetic_Algorithm.md)!
 <br/>
 <br/>
-In this article, we will introduce how to implement the genetic algorithm on scheduling problem. We use a job shop problem (JSP) as an example. In the job shop problem, multiple jobs are processed on several machines. Each job consists of several operations (tasks) with predefined sequence, that is, operations (tasks) must be performed in a given order and on a specific machine. The problem solution indicates the ideal jobs which are assigned to machines at particular times. Common scheduling objective is to minimize the maximum length of the schedule which also called makespan. Of course, we can consider other objectives such as minimize tardy jobs, minimize total weighted earliness and tardiness (TWET), and so on.
+In this article, we will introduce how to implement the genetic algorithm on the scheduling problem. We use a job shop problem (JSP) as an example. In the job shop problem, multiple jobs are processed on several machines. Each job consists of several operations (tasks) with predefined sequence, that is, operations (tasks) must be performed in a given order and on a specific machine. The problem solution indicates the ideal jobs which are assigned to machines at particular times. Common scheduling objective is to minimize the maximum length of the schedule which is also called makespan. Of course, we can consider other objectives such as minimize tardy jobs, minimize total weighted earliness and tardiness (TWET), and so on.
 <br/>
 <br/>
 Below is the simple example of JSP. There are four jobs (J1-J4) and four machines (M1-M4). There exist a certain fixed route (sequence of machines) which may not be the same for each job, as Figure 1 shows. Then, we can reorganize the routes and get the Table 1 which shows the machines sequence. And we may also know the processing time dataset, as shown in the Table 2. At last, we can follow the rules of JSP and find out feasible solutions. In Figure 2, the Gantt Chart is used to show our result.
@@ -22,13 +22,13 @@ Below is the simple example of JSP. There are four jobs (J1-J4) and four machine
 </div>
 <br/>
 
-So now let's learn and try to implement the GA on the 15×15 Job Shop Scheduling Problem! 
+So now let's learn and try to implement the GA on the 10×10 Job Shop Scheduling Problem! 
 
 ## Example: 10×10 Job Shop Scheduling Problem ##
 This example is a job shop scheduling problem from Lawrence (1984).<br/>
 This test is also known as LA19 in the literature, and its optimal makespan is known to be 842 (Applegate and Cook, 1991). <br/><br/>
-There are 10 jobs (J1-J15) and 10 machines (M1-M10).<br/>
-Every job must be processed on each of the 10 machines in a predefined sequence (O1-O10).<br/>
+There are 10 jobs (J1-J10) and 10 machines (M1-M10).<br/>
+Each job must be processed on each of the 10 machines in a predefined sequence (O1-O10).<br/>
 Our objective is to minimize the completion time of the last job to be processed, known as the makespan. <br/><br/>
 The dataset is given as follows:
 <br/><br/>
@@ -73,9 +73,9 @@ For solving the JSP, we use operation-based representation to encode a schedule.
 
 ### Problem Definition and Parameters Setting ###
 Input the information according to problem definition. <br/>
-Here, we will read Microsoft Excel spreadsheet file ([download](https://github.com/ChinYiTseng/IMS/raw/master/JSP_GA/JSP_dataset.xlsx)) instead of directly giving a value into the code.
+Here, we will read Microsoft Excel spreadsheet file ([download](https://github.com/ChinYiTseng/IMS/raw/master/JSP_GA/JSP_dataset.xlsx)) instead of directly giving a value in the code.
 ```matlab
-% xlsread(filename,sheet,xlRange), use Excel range syntax in "xlRange".
+% xlsread(filename,sheet,xlRange): use Excel range syntax in "xlRange".
 j_num = xlsread('JSP_dataset.xlsx','Parameters','B2'); % Job Counts
 ma_num = xlsread('JSP_dataset.xlsx','Parameters','B3'); % Machine Counts
 PT = xlsread('JSP_dataset.xlsx','ProcessingTime','B2:K11'); % Processing Time
@@ -137,7 +137,7 @@ Scheduling_best = zeros(1, j_num*ma_num);  % Record the scheduling with best fit
 ```
 
 ### Crossover ###
-Here, pairs of parent solutions are selected for two-point crossover, which calls for two points to be selected on the parent chromosomes. Everything between the two points is swapped between the chormosomes, rendering two offspring chromosomes.
+Here, pairs of parent solutions are selected for two-point crossover, which calls for two points to be selected. Everything between the two points is swapped between the chormosomes, rendering two offspring chromosomes.
 ```matlab
 population_list_tmp = population_list;  % Record the parent chromosomes.
 
@@ -169,7 +169,7 @@ end
 ```
 
 ### Mutation ###
-For mutaion, one gene in each chromosome alters if the probability is less than mutation rate. The gene which needs mutation is changed to another value. This may cause some jobs appear in the chromosome more than *m* times. Thus, we will have one step to repair it in the later. 
+For mutaion, each gene in each chromosome alters if the probability is less than mutation rate. The gene which needs mutation is changed to another value. This may cause some jobs appear in the chromosome more than *m* times. Thus, we will have one step to repair it in the later. 
 
 ```matlab
 for m = 1:population_size
@@ -188,7 +188,7 @@ end
 ```
 
 ### Repairment ###
-The crossover and mutation may break up the chromosome rules and give us one unfeasible solution, so repair our chromosomes is an important step. Here, we repair the chromosomes and let them become feasible solutions.
+The crossover and mutation may break up the chromosome rules and give us one unfeasible solution, so repairing our chromosomes is an important step. Here, we repair the chromosomes and let them become feasible solutions.
 
 ```matlab
 for m = 1:population_size 
@@ -297,7 +297,7 @@ end
 ```
 
 Calculate the fitness value. <br/>
-Here, we have to check whether there exists idle time between two operation on the machine or not. <br/>
+Here, we have to check whether there exists idle time between two operations on the machine or not. <br/>
 If there exists idle, we arragne the job to be processed earlier.
 ```matlab
 for m = 1:population_size*2 
@@ -365,7 +365,7 @@ for m = 1:population_size*2
 end
 ```
 
-Check the results, and record it if the result in this iteration is better than previous iterations.
+Check the result, and record it if the result in this iteration is better than previous iterations.
 ```matlab
 fitness_now = min(fitness(:,1));  % Find out the best fitness value from offsprings population in this iteration.
 if (fitness_now < Makespan_best)  % If the fitness value is better than best fitness value, update the Makespan_best and Scheduling_best.
@@ -390,7 +390,7 @@ for m = 1:population_size
 end
 ```
 
-Calculate selection probability for each chromosome.
+Calculate the selection probability for each chromosome.
 ```matlab
 pk = zeros(population_size,1);
 for m = 1:population_size
@@ -398,7 +398,7 @@ for m = 1:population_size
 end
 ```
 
-Calculate cumulative probability for each chromosome.
+Calculate the cumulative probability for each chromosome.
 ```matlab
 qk = zeros(population_size,1); % Record cumulative probability of offspring population.
 for m = 1:population_size
@@ -425,7 +425,7 @@ for m = 1:population_size
 end
 ```
 
-Use roulette wheel and select the chromosome to be included in new population.
+Use the roulette wheel and select the chromosome to be included in new population.
 ```matlab
 for m = 1:population_size
     if (selection_rand(m) <= qk(1))
