@@ -420,15 +420,14 @@ Generate a random number from the range [0,1].
 ```matlab
 selection_rand = zeros(1,population_size);  % Record the random number.
 
-for i = 1:population_size
-    selection_rand(i) = rand();
+for m = 1:population_size
+    selection_rand(m) = rand();
 end
 ```
 
 Use roulette wheel and select the chromosome to be included in new population.
 ```matlab
-
-for i = 1:population_size
+for m = 1:population_size
     if (selection_rand(m) <= qk(1))
 	population_list(m, 1:j_num*ma_num) = last_population_list(m, 1:j_num*ma_num);
     else
